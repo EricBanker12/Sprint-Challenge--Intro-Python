@@ -1,3 +1,6 @@
+import csv
+from os import path
+
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
 
@@ -22,9 +25,6 @@ class City:
 #
 # Note that the first line of the CSV is header that describes the fields--this
 # should not be loaded into a City object.
-import csv
-from os import path
-
 cities = []
 
 def cityreader(cities=[]):
@@ -73,14 +73,6 @@ for c in cities:
 # Tucson: (32.1558,-110.8777)
 # Salt Lake City: (40.7774,-111.9301)
 
-# TODO Get latitude and longitude values from the user
-
-input_1 = input('Enter lat1,lon1: ')
-[lat1, lon1] = map(float, input_1.split(','))
-
-input_2 = input('Enter lat2,lon2: ')
-[lat2, lon2] = map(float, input_2.split(','))
-
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
     # within will hold the cities that fall within the specified region
     within = []
@@ -92,12 +84,23 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
     lon1 = float(lon1)
     lat2 = float(lat2)
     lon2 = float(lon2)
-    box = [min(lat1, lat2), min(lon1, lon2), max(lat1, lat2), max(lon1, lon2)]
+    box = [min(lat1, lat2), min(lon1, lon2),
+           max(lat1, lat2), max(lon1, lon2)]
     for city in cities:
         if city.lat >= box[0] and city.lat <= box[2]:
             if city.lon >= box[1] and city.lon <= box[3]:
                 within.append(city)
     return within
 
-for c in cityreader_stretch(lat1, lon1, lat2, lon2, cities):
-    print(c)
+# TODO Get latitude and longitude values from the user
+try:
+    input_1 = input('Enter lat1,lon1: ')
+    [lat1, lon1] = input_1.split(',')
+
+    input_2 = input('Enter lat2,lon2: ')
+    [lat2, lon2] = input_2.split(',')
+
+    for c in cityreader_stretch(lat1, lon1, lat2, lon2, cities):
+        print(c)
+except ValueError:
+    pass
